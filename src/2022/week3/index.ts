@@ -7,22 +7,27 @@ const main = async () => {
     const lines = data.split("\n");
 
     let sum = 0;
+    let backpacks: string[] = [];
     lines.forEach((line) => {
-      const [first, second] = [
-        line.slice(0, line.length / 2),
-        line.slice(line.length / 2),
-      ];
+      backpacks.push(line);
 
-      const itemsInBoth = first
-        .split("")
-        .filter((item) => second.includes(item));
+      if (backpacks.length !== 3) {
+        return;
+      }
 
-      const uniqueItems = new Set(itemsInBoth);
+      const itemsInAll = backpacks[0].split("").filter((item) => {
+        return backpacks[1].includes(item) && backpacks[2].includes(item);
+      });
+
+      const uniqueItems = new Set(itemsInAll);
+      console.log(uniqueItems);
 
       sum += Array.from(uniqueItems).reduce(
         (acc, item) => acc + getValue(item),
         0
       );
+
+      backpacks = [];
     });
 
     console.log(sum);
